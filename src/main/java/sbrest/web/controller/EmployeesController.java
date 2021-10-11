@@ -43,6 +43,11 @@ public class EmployeesController {
         for( Employee employee : employees )
             employeeDtos.add( new EmployeeDto( employee ) );
         
+        logger.warn("a WARNING");
+        logger.info("some INFO");
+        logger.error("an ERROR");
+        logger.debug("DEBUG here");
+        
         return employeeDtos;
     }
 
