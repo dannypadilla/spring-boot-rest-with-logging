@@ -6,4 +6,4 @@ This project was originally written by Dr. Sun. See Week 6 in Canvas: [sbrest.zi
 
 ## Usage:
 1. Add MySQL DB url and credentials to `application.properties` file (__src/main/resources/__).
-2. Might have to use Java 11+
+2. Using Java 8
