@@ -8,7 +8,7 @@
 		<version>2.3.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>edu.csula.cs5220</groupId>
+	<groupId>sbrest</groupId>
 	<artifactId>sbrest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>sbrest</name>
@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 	</properties>
 
 	<dependencies>
