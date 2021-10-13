@@ -8,17 +8,26 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import sbrest.web.controller.EmployeesController;
+
 @Entity
 @Table(name = "employees")
 public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private static Logger logger = LoggerFactory.getLogger(Employee.class);    
 
     @Id
     @GeneratedValue
     private Integer id;
 
     private String name;
+    public Employee() {
+    	//logger.trace("Hello from Employees");
+    }
 
     @ManyToOne
     private Employee supervisor;
@@ -35,6 +44,7 @@ public class Employee implements Serializable {
 
     public String getName()
     {
+    	//logger.trace("Hello from Employees.getName() ");
         return name;
     }
 

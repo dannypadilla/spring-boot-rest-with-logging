@@ -44,11 +44,11 @@ public class EmployeesController {
             employeeDtos.add( new EmployeeDto( employee ) );
         }
         
-        logger.warn("a WARNING");
-        logger.info("some INFO");
-        logger.error("an ERROR");
-        logger.debug("DEBUG here");
-        logger.trace("This is a trace");
+        logger.warn("a WARNING from list()");
+        logger.info("some INFO from list()");
+        logger.error("an ERROR from list()");
+        logger.debug("   DEBUG from list()");
+        logger.trace("A TRACE  from list()");
         
         return employeeDtos;
     }
@@ -59,9 +59,10 @@ public class EmployeesController {
     {
 //    	logger.warn(id.toString());
     	Employee employee = employeeDao.getEmployee( id );
+    	logger.trace("Trying to find Employee with ID " + id + " from get()");
     	
         if ( employee == null ) {
-        	logger.error("Employee not found");
+        	logger.error("Employee with ID " + id + " was not found in get()");
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
             		"Employee not found");
         }
@@ -100,57 +101,5 @@ public class EmployeesController {
         employee = employeeDao.saveEmployee( employee );
         return new EmployeeDto( employee );
     }
-    
-    
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update1( @PathVariable Integer id,
-        @RequestBody EmployeeDto employeeDto )
-    {
-        // Omit error check code
-        // ...
-        Employee employee = employeeDao.getEmployee( id );
-        employee.setName( employeeDto.getName() );
-        if( employeeDto.getSupervisorId() != null )
-        {
-            Employee supervisor = employeeDao
-                .getEmployee( employeeDto.getSupervisorId() );
-            employee.setSupervisor( supervisor );
-        } else {        	
-        	employee.setSupervisor( null );
-        }
 
-        employee = employeeDao.saveEmployee( employee );
-    }
-
-    @PatchMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update2( @PathVariable Integer id,
-        @RequestBody Map<String, Object> patch )
-    {
-        // Omit error checking code
-        // ...
-        Employee employee = employeeDao.getEmployee( id );
-        for( String key : patch.keySet() )
-        {
-            switch( key )
-            {
-                case "name":
-                    employee.setName( (String) patch.get( key ) );
-                    break;
-                case "supervisorId":
-                    if( patch.get( key ) != null )
-                    {
-                        Employee supervisor = employeeDao
-                            .getEmployee( (Integer) patch.get( key ) );
-                        employee.setSupervisor( supervisor );
-                    }
-                    else
-                        employee.setSupervisor( null );
-                    break;
-                default:
-            }
-        }
-        employee = employeeDao.saveEmployee( employee );
-    }
 }
