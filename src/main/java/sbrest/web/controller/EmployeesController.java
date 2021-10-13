@@ -40,34 +40,53 @@ public class EmployeesController {
     {
         List<Employee> employees = employeeDao.getEmployees();
         List<EmployeeDto> employeeDtos = new ArrayList<EmployeeDto>();
-        for( Employee employee : employees )
+        for( Employee employee : employees ) {
             employeeDtos.add( new EmployeeDto( employee ) );
+        }
         
         logger.warn("a WARNING");
         logger.info("some INFO");
         logger.error("an ERROR");
         logger.debug("DEBUG here");
+        logger.trace("This is a trace");
         
         return employeeDtos;
     }
 
+    
     @GetMapping("/{id}")
     public EmployeeDto get( @PathVariable Integer id )
     {
-        Employee employee = employeeDao.getEmployee( id );
-        if( employee == null )
+//    	logger.warn(id.toString());
+    	Employee employee = employeeDao.getEmployee( id );
+    	
+        if ( employee == null ) {
+        	logger.error("Employee not found");
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
-                "Employee not found" );
+            		"Employee not found");
+        }
+       
+        logger.info("Pring the Employee's information (INFO-level)");
+        logger.info(employee.getName() + " , " + employee.getId() );
+        
+        logger.debug("Pring the Employee's information (DEBUG-level)");
+        logger.debug(employee.getName() + " , " + employee.getId() );
+        
+        logger.trace("Pring the Employee's information (trace-level)");
+        logger.trace(employee.getName() + " , " + employee.getId() );
+        
         return new EmployeeDto( employee );
     }
 
+    
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeeDto add( @RequestBody EmployeeDto employeeDto )
     {
-        if( !StringUtils.hasText( employeeDto.getName() ) )
-            throw new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                "Employee name is required" );
+        if( !StringUtils.hasText( employeeDto.getName() ) ) {
+        	throw new ResponseStatusException( HttpStatus.BAD_REQUEST,
+        			"Employee name is required" );        	
+        }
 
         Employee employee = new Employee();
         employee.setName( employeeDto.getName() );
@@ -81,7 +100,8 @@ public class EmployeesController {
         employee = employeeDao.saveEmployee( employee );
         return new EmployeeDto( employee );
     }
-
+    
+    
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update1( @PathVariable Integer id,
@@ -96,9 +116,9 @@ public class EmployeesController {
             Employee supervisor = employeeDao
                 .getEmployee( employeeDto.getSupervisorId() );
             employee.setSupervisor( supervisor );
+        } else {        	
+        	employee.setSupervisor( null );
         }
-        else
-            employee.setSupervisor( null );
 
         employee = employeeDao.saveEmployee( employee );
     }
